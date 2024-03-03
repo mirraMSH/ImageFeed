@@ -10,34 +10,22 @@ import UIKit
 final class OAuth2Service {
     
     static let shared = OAuth2Service()
+    init() {
+        self.urlSession = URLSession.shared
+    }
     
-    private let urlSession = URLSession.shared
+    private let urlSession: URLSession
+    private var oauth2TokenStorage = OAuth2TokenStorage()
     
     private var authToken: String? {
         get {
-            return OAuth2TokenStorage().token
+            return oauth2TokenStorage.token
         }
         set {
-            OAuth2TokenStorage().token = newValue
+            oauth2TokenStorage.token = newValue
         }
     }
     
-    func makeOAuthTokenRequest(code: String) -> URLRequest {
-        
-        guard let baseURL = URL(string: "https://unsplash.com") else {
-            preconditionFailure("Unable to construct Base URL")
-        }
-        let tokenURLPath = "/oauth/token" + "?client_id=\(accessKey)" + "&&client_secret=\(secretKey)" + "&&redirect_uri=\(redirectURI)" + "&&code=\(code)" + "&&grant_type=authorization_code"
-        
-        guard let url = URL(string: tokenURLPath,
-                            relativeTo: baseURL
-        ) else {
-            preconditionFailure("Unable to construct Token URL")
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        return request
-    }
     
     func fetchOAuthToken(with code: String, completion: @escaping (Result<String, Error>) -> Void) {
         
@@ -49,10 +37,11 @@ final class OAuth2Service {
         
         let request = makeOAuthTokenRequest(code: code)
         let task = fetchOAuthTokenResponseBody(for: request) { [weak self] result in
-            guard let self else { preconditionFailure("Unable to construct Token Auth Request") }
+            guard let self = self else { return }
             switch result {
             case .success(let body):
-                self.authToken = body.accessToken
+                let authToken = body.accessToken
+                self.authToken = authToken
                 completionMainStream(.success(body.accessToken))
             case .failure(let error):
                 completionMainStream(.failure(error))
@@ -74,6 +63,31 @@ extension OAuth2Service {
             completion(response)
         }
     }
+    
+    func makeOAuthTokenRequest(code: String) -> URLRequest {
+        guard let baseURL = URL(string: "https://unsplash.com") else {
+            preconditionFailure("Unable to construct Base URL")
+        }
+        guard let url = URL(
+            string: "/oauth/token"
+            + "?client_id=\(Constants.accessKey)"
+            + "&&client_secret=\(Constants.secretKey)"
+            + "&&redirect_uri=\(Constants.redirectURI)"
+            + "&&code=\(code)"
+            + "&&grant_type=authorization_code",
+            relativeTo: baseURL
+        ) else {
+            preconditionFailure("Unable to construct Token URL")
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        return request
+    }
 }
+
+
+        
+        
+        
 
 

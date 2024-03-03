@@ -38,7 +38,7 @@ extension URLSession {
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.urlSessionError))
             }
         })
-        
+        task.resume()
         return task
     }
 }
