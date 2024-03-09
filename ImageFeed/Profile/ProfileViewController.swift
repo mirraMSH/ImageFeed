@@ -9,13 +9,7 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    
-    //    private var avatarImageView: UIImageView?
-    //    private var nameLabel: UILabel?
-    //    private var loginNameLabel: UILabel?
-    //    private var descriptionLabel: UILabel?
-    //    private var logoutButton: UIButton?
-    //  private func didTapLogoutButton() { }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
