@@ -76,6 +76,15 @@ class ProfileViewController: UIViewController {
     
 }
 
+extension ProfileViewController {
+    func updateProfileDetails() {
+        guard let profile = ProfileService.shared.profile else {return}
+        nameLabel.text = "\(profile.first \(profile.lastName ?? ""))"
+        loginNameLabel.text = "@\(profile.username)"
+        descriptionLabel.text = profile.bio
+    }
+}
+
 extension UIColor {
      static var ypRed: UIColor { UIColor(named: "YP Red (iOS)") ?? UIColor.red }
      static var ypBlack: UIColor { UIColor(named: "YP Black") ?? UIColor.black}
