@@ -1,11 +1,12 @@
 //
 //  AuthViewController.swift
 //  ImageFeed
-//
+//+-
 //  Created by Мария Шагина on 26.02.2024.
 //
 
 import UIKit
+import ProgressHUD
 
 protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
@@ -45,12 +46,32 @@ final class AuthViewController: UIViewController {
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
+    
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         delegate?.authViewController(self, didAuthenticateWithCode: code)
+        
+        vc.dismiss(animated: true)
+        
+        UIBlockingProgressHUD.show()
+        oAuth2Service.fetchOAuthToken(code: code) { [weak self] result in
+            guard let self = self else { return }
+            
+            UIBlockingProgressHUD.dismiss()
+            
+            switch result {
+            case .success:
+                self.delegate?.authViewController(self, didAuthenticateWithCode: code)
+                
+            case .failure(let error):
+                print(error)
+                break
+            }
+        }
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
     }
 }
+
 
