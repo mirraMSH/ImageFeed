@@ -11,7 +11,7 @@ import ProgressHUD
 final class SplashViewController: UIViewController {
     
     
-    private let oauth2Service = OAuth2Service()
+    private let oauth2Service = OAuth2Service.shared
     private let oauth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
     
@@ -23,16 +23,7 @@ final class SplashViewController: UIViewController {
         return imageView
     }()
     
-    private func setupViews() {
-        view.addSubview(splashImage)
-    }
-    
-    private func setupLaunchLogoConstraints() {
-        NSLayoutConstraint.activate([
-            splashImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            splashImage.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-    }
+   
     //MARK: - Splash Viev Controller Main Methods
     
     override func viewDidLoad() {
@@ -49,14 +40,9 @@ final class SplashViewController: UIViewController {
         if let token = oauth2TokenStorage.token {
             fetchProfile(token: token)
         } else {
-            switchToTabBarController()
+            switchToAuthViewController()
         }
     }
-    
-    /*  override func viewWillAppear(_ animated: Bool) {
-     super.viewWillAppear(animated)
-     setNeedsStatusBarAppearanceUpdate()
-     }*/
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
@@ -77,19 +63,15 @@ final class SplashViewController: UIViewController {
         present(authViewController, animated: true)
     }
     
+    private func setupViews() {
+        view.addSubview(splashImage)
+    }
     
-    private func showAlert() {
-        let alert = UIAlertController(
-            title: "Что-то пошло не так",
-            message: "Не удалось войти в систему",
-            preferredStyle: .alert
-        )
-        let action = UIAlertAction(title: "Ок", style: .cancel) { [weak self] _ in
-            guard let self else { return }
-            self.switchToTabBarController()
-        }
-        alert.addAction(action)
-        present(alert, animated: true)
+    private func setupLaunchLogoConstraints() {
+        NSLayoutConstraint.activate([
+            splashImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            splashImage.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
 }
 
@@ -97,12 +79,9 @@ final class SplashViewController: UIViewController {
 extension SplashViewController: AuthViewControllerDelegate {
     
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        //        dismiss(animated: true) { [weak self] in
-        //            guard let self = self else { return }
         UIBlockingProgressHUD.show()
-        self.fetchOAuthToken(code)
+        fetchOAuthToken(code)
     }
-    
     
     private func fetchOAuthToken(_ code: String) {
         UIBlockingProgressHUD.show()
@@ -114,11 +93,9 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .failure:
                 print("Failed to fetch OAuth Token")
                 UIBlockingProgressHUD.dismiss()
-                self.showAlert()
             }
         }
     }
-    
     
     private func fetchProfile(token: String) {
         profileService.fetchProfile(token) { [weak self] result in
@@ -133,8 +110,6 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .failure (let error):
                 print("Ошибка загрузки профиля: \(error)")
                 UIBlockingProgressHUD.dismiss()
-                self.showAlert()
-                
             }
         }
     }

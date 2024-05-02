@@ -19,14 +19,16 @@ struct ProfileImage: Codable {
 
 final class ProfileImageService {
     
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     static let shared = ProfileImageService()
+    private init() { }
     
     private (set) var avatarURL: String?
-    
     private var task: URLSessionTask?
+    
     private let urlSession = URLSession.shared
     private let oAuthTokenStorage = OAuth2TokenStorage()
-    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
+    
     
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)

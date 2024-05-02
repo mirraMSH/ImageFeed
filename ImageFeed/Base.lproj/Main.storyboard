@@ -230,7 +230,6 @@
                         <viewLayoutGuide key="safeArea" id="fTR-r0-LQr"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
-                            <constraint firstItem="C6w-VR-qGc" firstAttribute="centerX" secondItem="fTR-r0-LQr" secondAttribute="centerX" id="6RC-tL-GEe"/>
                             <constraint firstItem="GMJ-40-bgn" firstAttribute="centerX" secondItem="fTR-r0-LQr" secondAttribute="centerX" id="JLy-BY-I1V"/>
                             <constraint firstItem="fTR-r0-LQr" firstAttribute="bottom" secondItem="C6w-VR-qGc" secondAttribute="bottom" constant="124" id="S7U-Y1-uAw"/>
                             <constraint firstItem="C6w-VR-qGc" firstAttribute="leading" secondItem="fTR-r0-LQr" secondAttribute="leading" constant="16" id="WV5-Sw-YEe"/>
@@ -307,6 +306,7 @@
             <point key="canvasLocation" x="1363" y="-2018"/>
         </scene>
     </scenes>
+    <color key="tintColor" name="YP White"/>
     <resources>
         <image name="0" width="1600" height="1059"/>
         <image name="Sharing" width="51" height="51"/>

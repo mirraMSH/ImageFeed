@@ -10,12 +10,13 @@ import UIKit
 final class OAuth2Service {
     
     static let shared = OAuth2Service()
+    private init() { }
+    
     private let urlSession = URLSession.shared
     
+    private var lastCode: String?
     private var task: URLSessionTask?
     private var oauth2TokenStorage = OAuth2TokenStorage()
-    private var lastCode: String?
-    
     
     private var authToken: String? {
         get {
@@ -29,6 +30,7 @@ final class OAuth2Service {
     enum AuthServiceError: Error {
         case invalidRequest
     }
+  
     
     func fetchOAuthToken(code: String, completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) {
         assert(Thread.isMainThread)

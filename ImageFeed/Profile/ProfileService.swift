@@ -32,6 +32,7 @@ struct Profile {
 final class ProfileService {
     
     static let shared = ProfileService()
+    private init() { }
     
     private let urlSession = URLSession.shared
     private(set) var profile: ProfileResult?

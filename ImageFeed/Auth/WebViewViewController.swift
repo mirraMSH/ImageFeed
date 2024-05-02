@@ -15,10 +15,13 @@ protocol WebViewViewControllerDelegate: AnyObject {
 
 final class WebViewViewController: UIViewController {
     
+    weak var delegate: WebViewViewControllerDelegate?
+    
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet private var progressView: UIProgressView!
+    
     private var estimatedProgressObservation: NSKeyValueObservation?
-    weak var delegate: WebViewViewControllerDelegate?
+    
     
     enum WebViewConstants {
         static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
@@ -29,6 +32,8 @@ final class WebViewViewController: UIViewController {
         loadAuthView()
         webView.navigationDelegate = self
         updateProgress()
+        
+        
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
              options: [],
@@ -59,13 +64,15 @@ final class WebViewViewController: UIViewController {
         
     }
     
-    
     private func updateProgress() {
-        progressView.progress = Float(webView.estimatedProgress)
+        //        progressView.progress = Float(webView.estimatedProgress)
+        let animated = Float(webView.estimatedProgress) > progressView.progress
+        progressView.setProgress(Float(webView.estimatedProgress), animated: animated)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
 }
 
+// MARK: - WKNavigationDelegate
 extension WebViewViewController: WKNavigationDelegate {
     func webView(
         _ webView: WKWebView,
