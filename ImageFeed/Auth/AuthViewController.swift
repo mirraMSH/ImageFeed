@@ -1,11 +1,12 @@
 //
 //  AuthViewController.swift
 //  ImageFeed
-//
+//+-
 //  Created by Мария Шагина on 26.02.2024.
 //
 
 import UIKit
+import ProgressHUD
 
 protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
@@ -42,11 +43,43 @@ final class AuthViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "YP Black")
     }
+    
+    private func showAlert() {
+         let alert = UIAlertController(
+             title: "Что-то пошло не так",
+             message: "Не удалось войти в систему",
+             preferredStyle: .alert
+         )
+         let action = UIAlertAction(title: "Ок", style: .cancel) { [weak self] _ in
+             guard let self else { return }
+         }
+         alert.addAction(action)
+         present(alert, animated: true)
+     }
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
+    
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         delegate?.authViewController(self, didAuthenticateWithCode: code)
+        
+        vc.dismiss(animated: true)
+        
+        UIBlockingProgressHUD.show()
+        oAuth2Service.fetchOAuthToken(code: code) { [weak self] result in
+            guard let self = self else { return }
+            
+            UIBlockingProgressHUD.dismiss()
+            
+            switch result {
+            case .success:
+                self.delegate?.authViewController(self, didAuthenticateWithCode: code)
+                
+            case .failure(let error):
+                print(error)
+                showAlert()
+            }
+        }
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
