@@ -6,44 +6,66 @@
 //
 
 import UIKit
+import ProgressHUD
+import Kingfisher
 
 final class SingleImageViewController: UIViewController {
     
-    var image: UIImage? {
-        
-        didSet {
-            guard isViewLoaded else { return }
-            imageView.image = image
-            rescaleAndCenterImageInScrollView(image: image ?? UIImage())
-        }
-    }
-    
+    // MARK: - Outlets
     @IBOutlet private var imageView: UIImageView!
-    
     @IBOutlet weak var scrollView: UIScrollView!
+    
     @IBAction func didTapBackButton() {
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func didTapShareButton(_ sender: UIButton) {
         let share = UIActivityViewController(
-            activityItems: [image as Any],
-            applicationActivities: nil
-        )
-        present(share, animated: true, completion: nil)
+                    activityItems: [image as Any],
+                    applicationActivities: nil
+                )
+                present(share, animated: true, completion: nil)
     }
     
+  var image: URL? {
+        didSet {
+            guard isViewLoaded else {return}
+            setImage()
+        }
+    }
+    
+    private let alert = AlertPresenter()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.image = image
-        rescaleAndCenterImageInScrollView(image: image ?? UIImage())
-        
         
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         
+        setImage()
+        
+    }
+    
+    private func setImage() {
+        UIBlockingProgressHUD.show()
+        imageView.kf.setImage(with: image) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success(let imageResult):
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case .failure:
+                self.alert.showAlert(in: self, with: AlertModel(
+                    title: "Что-то пошло не так",
+                    message: "Попробовать ещё раз?",
+                    buttonText: "Повторить",
+                    completion:  { action in
+                        self.setImage()}
+                ),
+                                     erorr: nil)
+            }
+            UIBlockingProgressHUD.dismiss()
+        }
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
@@ -70,3 +92,5 @@ extension SingleImageViewController: UIScrollViewDelegate {
     }
     
 }
+
+
