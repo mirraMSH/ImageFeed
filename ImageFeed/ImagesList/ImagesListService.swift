@@ -2,7 +2,7 @@
 //  ImagesListService.swift
 //  ImageFeed
 //
-//  Created by Мария Шагина on 04.05.2024.
+//  Created by Мария Шагина on 08.06.2024.
 //
 
 import Foundation
