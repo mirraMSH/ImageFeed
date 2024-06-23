@@ -14,6 +14,8 @@ final class SplashViewController: UIViewController {
     private let oauth2Service = OAuth2Service.shared
     private let oauth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
+    private let alert = AlertPresenter()
+    
     
     //MARK: - Splash Image Launch Logo
     private var splashImage: UIImageView = {
@@ -110,6 +112,11 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .failure (let error):
                 print("Ошибка загрузки профиля: \(error)")
                 UIBlockingProgressHUD.dismiss()
+                self.alert.showAlert(in: self, with: AlertModel(
+                    title: "Что-то пошло не так",
+                    message: "Ошибка загрузки профиля",
+                    buttonText: "OK",
+                    completion:  nil))
             }
         }
     }

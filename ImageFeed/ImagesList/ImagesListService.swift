@@ -8,6 +8,7 @@
 import Foundation
 
 
+// MARK: - ImagesListService Models
 struct Photo {
     let id: String
     let size: CGSize
@@ -15,15 +16,15 @@ struct Photo {
     let welcomeDescription: String?
     let thumbImageURL: String
     let largeImageURL: String
-    let isLiked: Bool
+    var isLiked: Bool
     
     init(result photo: PhotoResult) {
         self.id = photo.id
         self.size = CGSize(width: photo.width, height: photo.height)
         self.createdAt = ISO8601DateFormatter().date(from: photo.createdAt ?? "")
         self.welcomeDescription = photo.description
-        self.thumbImageURL = photo.urls?.thumbImageURL ?? ""
-        self.largeImageURL = photo.urls?.largeImageURL ?? ""
+        self.thumbImageURL = photo.urls?.thumb ?? ""
+        self.largeImageURL = photo.urls?.full ?? ""
         self.isLiked = photo.likedByUser
     }
 }
@@ -39,25 +40,31 @@ struct PhotoResult: Codable {
 }
 
 struct UrlsResult: Codable {
-    let largeImageURL: String?
-    let thumbImageURL: String?
-    
+    let full: String?
+    let thumb: String?
+}
+
+struct LikePhotoResult: Decodable {
+    let photoId: PhotoResult?
 }
 
 final class ImagesListService {
+    
     static let shared = ImagesListService()
     private init() { }
     
-    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
+    // MARK: - ImagesListService Properties
+    
     private (set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
-    private let perPage: Int = 10
-    private var nextPage: Int = 0
     private var pageNumber: Int = 1
-    private let oAuthTokenStorage = OAuth2TokenStorage()
-    
     private var task: URLSessionTask?
+    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
+    private let oAuthTokenStorage = OAuth2TokenStorage()
+    private let perPage: Int = 10
     private let urlSession = URLSession.shared
+    
+    // MARK: - ImagesListService Methods
     
     func fetchPhotosNextPage(completion: @escaping (Result<[Photo], Error>) -> Void) {
         assert(Thread.isMainThread)
@@ -65,7 +72,6 @@ final class ImagesListService {
         task?.cancel()
         
         guard var request = URLRequest.makeHTTPRequest(path: "/photos", httpMethod: "GET", baseURL: Constants.defaultBaseURL),
-              //        (path: "/photos?page=\(nextPage)&&per_page=\(perPage)", httpMethod: "GET", ),
               let token = oAuthTokenStorage.token else {
             assertionFailure("Failed to make HTTP request in ImageListService URL Method")
             return
@@ -85,7 +91,7 @@ final class ImagesListService {
                                                 userInfo: ["Photos": self.photos])
                 self.pageNumber += 1
             case .failure(let error):
-                print("[objectTask]: ImagesListService - \(error.localizedDescription)")
+                print("[objectTask] - fetchPhotosNextPage: ImagesListService - \(error.localizedDescription)")
                 completion(.failure(error))
             }
             self.task = nil
@@ -93,6 +99,49 @@ final class ImagesListService {
         self.task = task
         task.resume()
     }
+    
+    func changeLike(photoId: String, isLiked: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        task?.cancel()
+        guard let request = isLikedPhotosRequest(photoId: photoId, isLiked: isLiked) else { return }
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<LikePhotoResult, Error>) in
+            guard let self = self else { return }
+            self.task = nil
+            switch result {
+            case .success:
+                if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+                    self.photos[index].isLiked = isLiked
+                }
+                completion(.success(()))
+            case .failure(let error):
+                print("[objectTask - ChangeLike]: ImagesListService - \(error.localizedDescription)")
+                completion(.failure(error))
+            }
+        }
+        self.task = task
+        task.resume()
+    }
+    
+    private func isLikedPhotosRequest(photoId: String, isLiked: Bool) -> URLRequest? {
+        let method = isLiked ? "POST" : "DELETE"
+        var request = URLRequest.makeHTTPRequest(
+            path: "/photos"
+            + "/\(photoId)"
+            + "/like",
+            httpMethod: method
+        )
+        guard let token = oAuthTokenStorage.token else {
+            assertionFailure("Failed to make HTTP request in ImageListService URL Method")
+            return nil}
+        
+        request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return request
+    }
+    
+    func cleanPhotos() {
+        photos = []
+        lastLoadedPage = nil
+        task?.cancel()
+    }
 }
-
 

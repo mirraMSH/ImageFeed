@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A34A4CF2C284DD7006899C5 /* ProfileLogoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34A4CE2C284DD7006899C5 /* ProfileLogoutService.swift */; };
 		9A44CCA92B8D15B900111112 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A44CCA82B8D15B900111112 /* Constants.swift */; };
 		9A44CCAB2B8D26BA00111112 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A44CCAA2B8D26BA00111112 /* AuthViewController.swift */; };
 		9A44CCAE2B8D2F3500111112 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A44CCAD2B8D2F3500111112 /* WebViewViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A34A4CE2C284DD7006899C5 /* ProfileLogoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLogoutService.swift; sourceTree = "<group>"; };
 		9A44CCA82B8D15B900111112 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9A44CCAA2B8D26BA00111112 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		9A44CCAD2B8D2F3500111112 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				9AD8305E2B8A096E001A74E7 /* ProfileViewController.swift */,
 				9ACD67942BA3B52B0020B461 /* ProfileService.swift */,
 				9A72C04B2BD583C000E65A24 /* ProfileImageService.swift */,
+				9A34A4CE2C284DD7006899C5 /* ProfileLogoutService.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 				9A4EF09C2B93EA3C00F1785F /* SplashViewController.swift in Sources */,
 				9ACCD6302B93723D00D8F439 /* OAuthTokenResponseBody.swift in Sources */,
 				9ACCD62B2B9360A400D8F439 /* OAuth2Service.swift in Sources */,
+				9A34A4CF2C284DD7006899C5 /* ProfileLogoutService.swift in Sources */,
 				9ACD67932BA3AA350020B461 /* UIBlockingProgressHUD.swift in Sources */,
 				9A5FE9ED2B541B9A0027A31B /* AppDelegate.swift in Sources */,
 				9A44CCAB2B8D26BA00111112 /* AuthViewController.swift in Sources */,

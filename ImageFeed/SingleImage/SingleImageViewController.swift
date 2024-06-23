@@ -11,7 +11,7 @@ import Kingfisher
 
 final class SingleImageViewController: UIViewController {
     
-    // MARK: - Outlets
+    // MARK: - SingleImageViewController Outlets
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -21,13 +21,13 @@ final class SingleImageViewController: UIViewController {
     
     @IBAction func didTapShareButton(_ sender: UIButton) {
         let share = UIActivityViewController(
-                    activityItems: [image as Any],
-                    applicationActivities: nil
-                )
-                present(share, animated: true, completion: nil)
+            activityItems: [image as Any],
+            applicationActivities: nil
+        )
+        present(share, animated: true, completion: nil)
     }
-    
-  var image: URL? {
+    // MARK: - SingleImageViewController Properties
+    var image: URL? {
         didSet {
             guard isViewLoaded else {return}
             setImage()
@@ -36,7 +36,7 @@ final class SingleImageViewController: UIViewController {
     
     private let alert = AlertPresenter()
     
-    
+    // MARK: - SingleImageViewController Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,7 +44,6 @@ final class SingleImageViewController: UIViewController {
         scrollView.maximumZoomScale = 1.25
         
         setImage()
-        
     }
     
     private func setImage() {
@@ -55,14 +54,19 @@ final class SingleImageViewController: UIViewController {
             case .success(let imageResult):
                 self.rescaleAndCenterImageInScrollView(image: imageResult.image)
             case .failure:
-                self.alert.showAlert(in: self, with: AlertModel(
+                self.alert.showAlertTwoButtons(in: self, with: AlertModelTwoButtons(
                     title: "Что-то пошло не так",
                     message: "Попробовать ещё раз?",
-                    buttonText: "Повторить",
-                    completion:  { action in
-                        self.setImage()}
-                ),
-                                     erorr: nil)
+                    firstButtonText: "Не надо",
+                    secondButtonText: "Повторить",
+                    firstAction: { [weak self] in
+                        guard let self = self else { return }
+                        self.didTapBackButton()
+                    },
+                    secondAction: { [weak self] in
+                        guard let self = self else { return }
+                        setImage().self}
+                ))
             }
             UIBlockingProgressHUD.dismiss()
         }
@@ -85,12 +89,11 @@ final class SingleImageViewController: UIViewController {
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
 }
-
+// MARK: - SingleImageViewController Extension
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
     }
-    
 }
 
 
