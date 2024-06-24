@@ -71,7 +71,7 @@ final class ImagesListService {
         if task != nil { return }
         task?.cancel()
         
-        guard var request = URLRequest.makeHTTPRequest(path: "/photos", httpMethod: "GET", baseURL: Constants.defaultBaseURL),
+        guard var request = URLRequest.makeHTTPRequest(path: "/photos?page=\(pageNumber)&per_page=\(perPage)", httpMethod: "GET", baseURL: Constants.defaultBaseURL),
               let token = oAuthTokenStorage.token else {
             assertionFailure("Failed to make HTTP request in ImageListService URL Method")
             return
