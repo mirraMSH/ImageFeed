@@ -8,7 +8,8 @@
 import UIKit
 import Kingfisher
 
-class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
+    
     // MARK: - ImagesListViewController Outlets
     @IBOutlet private var tableView: UITableView!
     
@@ -24,6 +25,7 @@ class ImagesListViewController: UIViewController {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
+        formatter.locale = Locale(identifier: "ru_RU")
         return formatter
     }()
     

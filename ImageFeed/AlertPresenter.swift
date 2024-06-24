@@ -7,22 +7,6 @@
 
 import UIKit
 
-struct AlertModel {
-    let title: String
-    let message: String
-    let buttonText: String
-    let completion: ((UIAlertAction) -> ())?
-}
-
-struct AlertModelTwoButtons {
-    let title: String
-    let message: String
-    let firstButtonText: String
-    let secondButtonText: String
-    let firstAction: () -> Void
-    let secondAction: () -> Void
-}
-
 final class AlertPresenter {
     func showAlert(in vc: UIViewController, with model: AlertModel) {
         let alert = UIAlertController(

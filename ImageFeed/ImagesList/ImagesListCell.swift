@@ -13,7 +13,7 @@ protocol ImagesListCellDelegate: AnyObject {
 }
 
 final class ImagesListCell: UITableViewCell {
- 
+    
     // MARK: - ImagesListCell Properties
     weak var delegate: ImagesListCellDelegate?
     static let reuseIdentifier = "ImagesListCell"
@@ -27,14 +27,13 @@ final class ImagesListCell: UITableViewCell {
     }
     // MARK: - ImagesListCell Methods
     override func prepareForReuse() {
-           super.prepareForReuse()
-           cellImage.kf.cancelDownloadTask()
-       }
+        super.prepareForReuse()
+        cellImage.kf.cancelDownloadTask()
+    }
     
     func setIsLiked(isLiked: Bool) {
-            let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
-            likeButton.imageView?.image = likeImage
-            likeButton.setImage(likeImage, for: .normal)
-        }
-    
+        let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
+        likeButton.imageView?.image = likeImage
+        likeButton.setImage(likeImage, for: .normal)
+    }
 }
