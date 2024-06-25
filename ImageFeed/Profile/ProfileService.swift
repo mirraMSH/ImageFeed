@@ -8,6 +8,8 @@
 import Foundation
 import WebKit
 
+// MARK: - Profile Service Models
+
 struct ProfileResult: Decodable {
     let username: String
     let firstName: String
@@ -31,14 +33,17 @@ struct Profile {
 
 final class ProfileService {
     
+    
     static let shared = ProfileService()
     private init() { }
     
+    // MARK: - Profile Service Properties
     private let urlSession = URLSession.shared
     private(set) var profile: ProfileResult?
     private var task: URLSessionTask?
     private var lastToken: String?
     
+    // MARK: - Profile Service Methods
     func fetchProfile(_ token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void) {
         assert(Thread.isMainThread)
         if lastToken == token { return }
@@ -65,5 +70,11 @@ final class ProfileService {
         self.task = task
         
         task.resume()
+    }
+    
+    func cleanProfile() {
+        profile = nil
+        task?.cancel()
+        task = nil
     }
 }

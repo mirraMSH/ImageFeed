@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - Profile Image Models
+
 struct UserResult: Codable {
     var profileImage: ProfileImage
 }
@@ -23,13 +25,13 @@ final class ProfileImageService {
     static let shared = ProfileImageService()
     private init() { }
     
+    // MARK: - Profile Image Properties
     private (set) var avatarURL: String?
     private var task: URLSessionTask?
-    
     private let urlSession = URLSession.shared
     private let oAuthTokenStorage = OAuth2TokenStorage()
     
-    
+    // MARK: - Profile Image Methods
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
         task?.cancel()
@@ -60,5 +62,10 @@ final class ProfileImageService {
         self.task = task
         task.resume()
     }
+    
+    func cleanAvatar() {
+        avatarURL = nil
+        task?.cancel()
+        task = nil
+    }
 }
-

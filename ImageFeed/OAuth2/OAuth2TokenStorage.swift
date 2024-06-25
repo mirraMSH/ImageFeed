@@ -23,4 +23,8 @@ final class OAuth2TokenStorage {
             }
         }
     }
+    
+    func cleanToken() {
+        KeychainWrapper.standard.removeAllKeys()
+    }
 }

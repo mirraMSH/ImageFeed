@@ -7,12 +7,16 @@
 
 import UIKit
 import Kingfisher
+import WebKit
 
 class ProfileViewController: UIViewController {
     
+    // MARK: - Private Properties
     private let profileService = ProfileService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
+    private let oAuthTokenStorage = OAuth2TokenStorage()
     
+    // MARK: - Profile Lebel Views
     private let avatarImageView: UIImageView = {
         let image = UIImage(named: "Photo")
         let imageView = UIImageView(image: image)
@@ -49,14 +53,13 @@ class ProfileViewController: UIViewController {
     }()
     
     private let logoutButton: UIButton = {
-        let button = UIButton.systemButton(with: UIImage(named: "Exit")!, target: ProfileViewController.self, action: #selector(didTapLogoutButton))
+        let button = UIButton.systemButton(with: UIImage(named: "Exit")!, target: self, action: #selector(didTapLogoutButton))
         button.tintColor = .ypRed
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.accessibilityIdentifier = "logout button"
         return button
     }()
-    
-    
-    
+    // MARK: - Override Method
     override func viewDidLoad() {
         super.viewDidLoad()
         updateProfileDetails()
@@ -75,6 +78,7 @@ class ProfileViewController: UIViewController {
             }
     }
     
+    // MARK: - Private Properties
     private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
@@ -88,6 +92,7 @@ class ProfileViewController: UIViewController {
                                     placeholder: UIImage(named: "tab_profile_active"),
                                     options: [.processor(processor), .transition(.fade(1))])
     }
+    // MARK: - Private Properties
     
     private func setupViews() {
         view.addSubview(avatarImageView)
@@ -123,10 +128,29 @@ class ProfileViewController: UIViewController {
         ])
     }
     
-    @objc
-    private func didTapLogoutButton() { }
+    // MARK: - Logout Button
     
+    @objc
+    private func didTapLogoutButton() {
+        let alert = UIAlertController(
+            title: "Пока, пока!",
+            message: "Вы уверены, что хотите выйти?",
+            preferredStyle: .alert
+        )
+        
+        let noButton = UIAlertAction(title: "Нет", style: .cancel)
+        let yesButton = UIAlertAction(title: "Да", style: .destructive) { [weak self] _ in
+            ProfileLogoutService.shared.logout()
+        }
+        
+        alert.addAction(noButton)
+        alert.addAction(yesButton)
+        
+        present(alert, animated: true)
+    }
 }
+
+// MARK: - Extentions
 
 extension ProfileViewController {
     func updateProfileDetails() {
