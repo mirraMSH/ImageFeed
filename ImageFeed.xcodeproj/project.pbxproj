@@ -28,6 +28,8 @@
 		9A9C8B7E2B9CD174006BDE2B /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9C8B7D2B9CD174006BDE2B /* ProgressHUD */; };
 		9AA50C9F2C2B24310019C6F0 /* AlertModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA50C9E2C2B24310019C6F0 /* AlertModels.swift */; };
 		9AA50CA12C2B24720019C6F0 /* ImagesList Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA50CA02C2B24720019C6F0 /* ImagesList Models.swift */; };
+		9AA50CA32C2B26CC0019C6F0 /* WebViewPresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA50CA22C2B26CC0019C6F0 /* WebViewPresenterSpy.swift */; };
+		9AA50CA52C2B27A70019C6F0 /* WebViewViewControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA50CA42C2B27A70019C6F0 /* WebViewViewControllerSpy.swift */; };
 		9AACEC662BE1011100C4D0C8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 9AACEC652BE1011100C4D0C8 /* Kingfisher */; };
 		9AACEC692BE154D400C4D0C8 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 9AACEC682BE154D400C4D0C8 /* SwiftKeychainWrapper */; };
 		9AACEC6B2BE15D6300C4D0C8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AACEC6A2BE15D6300C4D0C8 /* TabBarController.swift */; };
@@ -75,6 +77,8 @@
 		9A9956DB2C146168001C4370 /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
 		9AA50C9E2C2B24310019C6F0 /* AlertModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModels.swift; sourceTree = "<group>"; };
 		9AA50CA02C2B24720019C6F0 /* ImagesList Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImagesList Models.swift"; sourceTree = "<group>"; };
+		9AA50CA22C2B26CC0019C6F0 /* WebViewPresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenterSpy.swift; sourceTree = "<group>"; };
+		9AA50CA42C2B27A70019C6F0 /* WebViewViewControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewControllerSpy.swift; sourceTree = "<group>"; };
 		9AACEC6A2BE15D6300C4D0C8 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		9ACCD6282B9358A400D8F439 /* URLSession+data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+data.swift"; sourceTree = "<group>"; };
 		9ACCD62A2B9360A400D8F439 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
@@ -111,6 +115,8 @@
 			isa = PBXGroup;
 			children = (
 				9A30F8682C2A0D3D00D4A3C4 /* WebViewTests.swift */,
+				9AA50CA22C2B26CC0019C6F0 /* WebViewPresenterSpy.swift */,
+				9AA50CA42C2B27A70019C6F0 /* WebViewViewControllerSpy.swift */,
 			);
 			path = ImageFeedTests;
 			sourceTree = "<group>";
@@ -337,6 +343,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A30F8692C2A0D3D00D4A3C4 /* WebViewTests.swift in Sources */,
+				9AA50CA52C2B27A70019C6F0 /* WebViewViewControllerSpy.swift in Sources */,
+				9AA50CA32C2B26CC0019C6F0 /* WebViewPresenterSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
