@@ -6,3 +6,16 @@
 //
 
 import Foundation
+@testable import ImageFeed
+
+final class ImagesListViewControllerSpy: ImagesListViewControllerProtocol {
+    var presenter: ImagesListPresenterProtocol!
+    
+    var setupLikeCalled = false
+    
+    func updateTableViewAnimated() { }
+    
+    func setupLike(for cell: ImagesListCell) {
+        setupLikeCalled = true
+    }
+}

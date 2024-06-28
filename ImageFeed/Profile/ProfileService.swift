@@ -8,6 +8,12 @@
 import Foundation
 import WebKit
 
+protocol ProfileServiceProtocol {
+    
+    var profile: ProfileResult? { get }
+    func fetchProfile(_ token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void)
+}
+
 // MARK: - Profile Service Models
 
 struct ProfileResult: Decodable {
@@ -23,16 +29,15 @@ struct Profile {
     let loginName: String?
     let bio: String?
     
-    init(ProfileResult: ProfileResult) {
-        self.username = ProfileResult.username
-        self.name = ProfileResult.firstName + " " + (ProfileResult.lastName ?? "")
-        self.loginName = "@" + (ProfileResult.username)
-        self.bio = ProfileResult.bio
+    init(profile: ProfileResult) {
+        self.username = profile.username
+        self.name = profile.firstName + " " + (profile.lastName ?? "")
+        self.loginName = "@" + (profile.username)
+        self.bio = profile.bio
     }
 }
 
-final class ProfileService {
-    
+final class ProfileService: ProfileServiceProtocol {
     
     static let shared = ProfileService()
     private init() { }

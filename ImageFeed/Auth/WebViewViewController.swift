@@ -32,11 +32,9 @@ final class WebViewViewController: UIViewController, WebViewViewControllerProtoc
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        loadAuthView()
         presenter?.viewDidLoad()
         webView.navigationDelegate = self
-//        updateProgress()
-        
+        webView.accessibilityIdentifier = "UnsplashWebView"
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
              options: [],
@@ -52,41 +50,11 @@ final class WebViewViewController: UIViewController, WebViewViewControllerProtoc
     func setProgressValue(_ newValue: Float) {
         progressView.progress = newValue
     }
-
+    
     func setProgressHidden(_ isHidden: Bool) {
         progressView.isHidden = isHidden
     }
     
-    
-     
-     /*  enum WebViewConstants {
-           static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-       }
-        func loadAuthView() {
-        guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
-            fatalError("Incorrect base URL")
-        }
-        
-        urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: Constants.accessScope)
-        ]
-        
-        guard let url = urlComponents.url else {
-            fatalError("Unable to build URL")
-        }
-        
-        let request = URLRequest(url: url)
-        webView.load(request)
-        
-    }
-        private func updateProgress() {
-        let animated = Float(webView.estimatedProgress) > progressView.progress
-        progressView.setProgress(Float(webView.estimatedProgress), animated: animated)
-        progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
-    }*/
 }
 
 // MARK: - WKNavigationDelegate
@@ -110,18 +78,4 @@ extension WebViewViewController: WKNavigationDelegate {
         }
         return nil
     }
-    
-   /* private func code(from navigationAction: WKNavigationAction) -> String? {
-        if
-            let url = navigationAction.request.url,
-            let urlComponents = URLComponents(string: url.absoluteString),
-            urlComponents.path == "/oauth/authorize/native",
-            let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == "code" })
-        {
-            return codeItem.value
-        } else {
-            return nil
-        }
-    }*/
 }

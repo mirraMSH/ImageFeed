@@ -9,17 +9,27 @@ import UIKit
 import Kingfisher
 import WebKit
 
-class ProfileViewController: UIViewController {
+protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfilePresenterProtocol! { get set }
+    func setupAvatar(with url: URL)
+    func setupProfileDetails(profile: ProfileResult)
+}
+
+class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
+    
     
     // MARK: - Private Properties
     private let profileService = ProfileService.shared
-    private var profileImageServiceObserver: NSObjectProtocol?
-    private let oAuthTokenStorage = OAuth2TokenStorage()
+    var presenter: ProfilePresenterProtocol! = ProfilePresenter()
+    //    private var profileImageServiceObserver: NSObjectProtocol?
+    //    private let oAuthTokenStorage = OAuth2TokenStorage()
     
     // MARK: - Profile Lebel Views
     private let avatarImageView: UIImageView = {
         let image = UIImage(named: "Photo")
         let imageView = UIImageView(image: image)
+        imageView.layer.cornerRadius = 35
+        imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -62,36 +72,19 @@ class ProfileViewController: UIViewController {
     // MARK: - Override Method
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateProfileDetails()
-        updateAvatar()
+        presenter.view = self
+        presenter.updateProfileData()
+        //        updateAvatar()
         setupViews()
         setupAllConstraints()
-        
-        profileImageServiceObserver = NotificationCenter.default
-            .addObserver(
-                forName: ProfileImageService.didChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                guard let self = self else { return }
-                self.updateAvatar()
-            }
     }
     
-    // MARK: - Private Properties
-    private func updateAvatar() {
-        guard
-            let profileImageURL = ProfileImageService.shared.avatarURL,
-            let url = URL(string: profileImageURL)
-        else { return }
-        let cache = ImageCache.default
-        cache.clearDiskCache()
-        let processor = RoundCornerImageProcessor(cornerRadius: 42)
-        
-        avatarImageView.kf.setImage(with: url,
-                                    placeholder: UIImage(named: "tab_profile_active"),
-                                    options: [.processor(processor), .transition(.fade(1))])
+    // MARK: - Public Properties
+    func setupAvatar(with url: URL) {
+        self.avatarImageView.kf.indicatorType = .activity
+        self.avatarImageView.kf.setImage(with: url, placeholder: UIImage(named: "tab_profile_active"))
     }
+    
     // MARK: - Private Properties
     
     private func setupViews() {
@@ -103,6 +96,7 @@ class ProfileViewController: UIViewController {
     }
     
     private func setupAllConstraints() {
+        
         NSLayoutConstraint.activate([
             avatarImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
@@ -148,18 +142,14 @@ class ProfileViewController: UIViewController {
         
         present(alert, animated: true)
     }
+    func setupProfileDetails(profile: ProfileResult) {
+        self.nameLabel.text = "\(profile.firstName) \(profile.lastName ?? "")"
+        self.loginNameLabel.text = "@\(profile.username)"
+        self.descriptionLabel.text = profile.bio
+    }
 }
 
 // MARK: - Extentions
-
-extension ProfileViewController {
-    func updateProfileDetails() {
-        guard let profile = ProfileService.shared.profile else {return}
-        nameLabel.text = "\(profile.firstName) \(profile.lastName ?? "")"
-        loginNameLabel.text = "@\(profile.username)"
-        descriptionLabel.text = profile.bio
-    }
-}
 
 extension UIColor {
     static var ypRed: UIColor { UIColor(named: "YP Red (iOS)") ?? UIColor.red }

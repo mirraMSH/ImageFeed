@@ -25,7 +25,7 @@ final class SplashViewController: UIViewController {
         return imageView
     }()
     
-   
+    
     //MARK: - Splash Viev Controller Main Methods
     
     override func viewDidLoad() {

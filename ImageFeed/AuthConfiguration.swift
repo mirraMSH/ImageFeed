@@ -47,4 +47,3 @@ enum Constants {
                                  defaultBaseURL: Constants.defaultBaseURL)
     }
 }
-
