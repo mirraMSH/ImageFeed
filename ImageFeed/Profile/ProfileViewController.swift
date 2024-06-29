@@ -36,6 +36,7 @@ class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
     
     private let nameLabel: UILabel = {
         let nameLabel = UILabel()
+        nameLabel.accessibilityIdentifier = "NameLSurnameLabel"
         nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = .ypWhite
         nameLabel.font = UIFont.boldSystemFont(ofSize: 23)
@@ -45,6 +46,7 @@ class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
     
     private let loginNameLabel: UILabel = {
         let loginNameLabel = UILabel()
+        loginNameLabel.accessibilityIdentifier = "@username"
         loginNameLabel.text = "@ekaterina_nov"
         loginNameLabel.textColor = .ypGray
         loginNameLabel.font = UIFont.systemFont(ofSize: 13)

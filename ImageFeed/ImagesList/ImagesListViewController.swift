@@ -141,7 +141,7 @@ extension ImagesListViewController: UITableViewDataSource {
 extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row + 1 == presenter.imagesListService.photos.count {
+        if indexPath.row + 1 == presenter.imagesListService.photos.count && !ProcessInfo().arguments.contains("UITEST")  {
             presenter.imagesListService.fetchPhotosNextPage(completion: { _ in })
         }
     }
@@ -160,3 +160,4 @@ extension ImagesListViewController: UITableViewDelegate {
         return cellHeight
     }
 }
+

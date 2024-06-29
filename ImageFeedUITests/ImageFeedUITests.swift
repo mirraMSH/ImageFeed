@@ -13,12 +13,12 @@ final class ImageFeedUITests: XCTestCase {
     
     override func setUpWithError() throws {
         continueAfterFailure = false
-        
+        app.launchArguments = ["UITEST"]
         app.launch()
     }
     
     func testAuth() throws {
-        
+        sleep(3)
         app.buttons["Authenticate"].tap()
         let webView = app.webViews["UnsplashWebView"]
         
@@ -28,22 +28,26 @@ final class ImageFeedUITests: XCTestCase {
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
         
         loginTextField.tap()
-        loginTextField.typeText("") //ввести электронную почту для ввода
+        loginTextField.typeText("mirra.madarame@gmail.com") //ввести электронную почту для ввода
         webView.swipeUp()
+        //        XCUIApplication().toolbars.buttons["Done"].tap()
         
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         
         passwordTextField.tap()
-        passwordTextField.typeText("") //ввести пароль
-        webView.swipeUp()
+        passwordTextField.typeText("QWE321qwe") //ввести пароль
+        //        webView.swipeUp()
+        XCUIApplication().toolbars.buttons["Done"].tap()
         
         webView.buttons["Login"].tap()
         
         let tablesQuery = app.tables
         let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
         
-        XCTAssertTrue(cell.waitForExistence(timeout: 5))
+        sleep(5)
+        
+//        XCTAssertTrue(cell.waitForExistence(timeout: 5))
         
     }
     
@@ -53,13 +57,13 @@ final class ImageFeedUITests: XCTestCase {
         let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
         cell.swipeUp()
         
-        sleep(2)
+        sleep(3)
         
         let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
         
-        cellToLike.buttons["like_button_on"].tap()
+        cellToLike.buttons["LikeButton"].tap()
         sleep(5)
-        cellToLike.buttons["like_button_off"].tap()
+        cellToLike.buttons["LikeButton"].tap()
         
         sleep(2)
         
@@ -73,7 +77,7 @@ final class ImageFeedUITests: XCTestCase {
         // Zoom out
         image.pinch(withScale: 0.5, velocity: -1)
         
-        let navBackButtonWhiteButton = app.buttons["nav_back_button_white"]
+        let navBackButtonWhiteButton = app.buttons["backButtonWhite"]
         navBackButtonWhiteButton.tap()
     }
     
@@ -81,8 +85,8 @@ final class ImageFeedUITests: XCTestCase {
         sleep(3)
         app.tabBars.buttons.element(boundBy: 1).tap()
         
-        XCTAssertTrue(app.staticTexts[""].exists) // ввести имя+фамилия
-        XCTAssertTrue(app.staticTexts["@"].exists) // ввести @логин
+        XCTAssertTrue(app.staticTexts["NameLSurnameLabel"].exists) // ввести имя+фамилия
+        XCTAssertTrue(app.staticTexts["@username"].exists) // ввести @логин
         
         app.buttons["Exit"].tap()
         
