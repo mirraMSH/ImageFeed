@@ -8,6 +8,7 @@
 import UIKit
 import Kingfisher
 
+
 protocol ImagesListViewControllerProtocol: AnyObject {
     var presenter: ImagesListPresenterProtocol! { get set }
     
@@ -17,6 +18,9 @@ protocol ImagesListViewControllerProtocol: AnyObject {
 
 final class ImagesListViewController: UIViewController, ImagesListViewControllerProtocol {
     
+
+final class ImagesListViewController: UIViewController {
+
     
     // MARK: - ImagesListViewController Outlets
     @IBOutlet private var tableView: UITableView!
