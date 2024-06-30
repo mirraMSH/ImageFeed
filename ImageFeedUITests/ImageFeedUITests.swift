@@ -30,16 +30,18 @@ final class ImageFeedUITests: XCTestCase {
         loginTextField.tap()
         loginTextField.typeText("mirra.madarame@gmail.com") //ввести электронную почту для ввода
         webView.swipeUp()
-        //        XCUIApplication().toolbars.buttons["Done"].tap()
         
+        sleep(5)
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
-        
+        sleep(5)
         passwordTextField.tap()
+        sleep(5)
         passwordTextField.typeText("QWE321qwe") //ввести пароль
-        //        webView.swipeUp()
-        XCUIApplication().toolbars.buttons["Done"].tap()
         
+        sleep(5)
+        XCUIApplication().toolbars.buttons["Done"].tap()
+        sleep(5)
         webView.buttons["Login"].tap()
         
         let tablesQuery = app.tables
@@ -47,47 +49,51 @@ final class ImageFeedUITests: XCTestCase {
         
         sleep(5)
         
-//        XCTAssertTrue(cell.waitForExistence(timeout: 5))
-        
+        XCTAssertTrue(cell.waitForExistence(timeout: 5))
     }
     
     func testFeed() throws {
-        let tablesQuery = app.tables
         
+        sleep(3)
+        let tablesQuery = app.tables
+        sleep(3)
         let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
+        
+        sleep(3)
         cell.swipeUp()
         
         sleep(3)
         
         let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
-        
+        sleep(5)
         cellToLike.buttons["LikeButton"].tap()
         sleep(5)
         cellToLike.buttons["LikeButton"].tap()
         
-        sleep(2)
+        sleep(5)
         
         cellToLike.tap()
         
-        sleep(2)
+        sleep(5)
         
         let image = app.scrollViews.images.element(boundBy: 0)
-        // Zoom in
+        
+        sleep(5)
+        
         image.pinch(withScale: 3, velocity: 1) // zoom in
-        // Zoom out
         image.pinch(withScale: 0.5, velocity: -1)
         
         let navBackButtonWhiteButton = app.buttons["backButtonWhite"]
         navBackButtonWhiteButton.tap()
+        sleep (5)
     }
     
     func testProfile() throws {
-        sleep(3)
+        sleep(5)
         app.tabBars.buttons.element(boundBy: 1).tap()
         
-        XCTAssertTrue(app.staticTexts["NameLSurnameLabel"].exists) // ввести имя+фамилия
-        XCTAssertTrue(app.staticTexts["@username"].exists) // ввести @логин
-        
+        XCTAssertTrue(app.staticTexts["NameLSurnameLabel"].exists)
+        XCTAssertTrue(app.staticTexts["@username"].exists)
         app.buttons["Exit"].tap()
         
         app.alerts["Пока, пока!"].scrollViews.otherElements.buttons["Да"].tap()
