@@ -51,4 +51,3 @@ struct UrlsResult: Codable {
 struct LikePhotoResult: Decodable {
     let photoId: PhotoResult?
 }
-

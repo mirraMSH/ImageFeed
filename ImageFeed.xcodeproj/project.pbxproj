@@ -54,6 +54,8 @@
 		9ACD67952BA3B52B0020B461 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACD67942BA3B52B0020B461 /* ProfileService.swift */; };
 		9AD8305F2B8A096E001A74E7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD8305E2B8A096E001A74E7 /* ProfileViewController.swift */; };
 		9AD830622B8A6CA3001A74E7 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD830612B8A6CA3001A74E7 /* SingleImageViewController.swift */; };
+		9ADC9DC62C2A1ED500EBE19D /* AlertModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADC9DC52C2A1ED500EBE19D /* AlertModels.swift */; };
+		9ADC9DC82C2A22D400EBE19D /* ImagesList Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADC9DC72C2A22D400EBE19D /* ImagesList Models.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +140,8 @@
 		9ACD67942BA3B52B0020B461 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		9AD8305E2B8A096E001A74E7 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		9AD830612B8A6CA3001A74E7 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
+		9ADC9DC52C2A1ED500EBE19D /* AlertModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModels.swift; sourceTree = "<group>"; };
+		9ADC9DC72C2A22D400EBE19D /* ImagesList Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImagesList Models.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,7 +271,11 @@
 				9A44CCA82B8D15B900111112 /* AuthConfiguration.swift */,
 				9A30F8602C2A085F00D4A3C4 /* AuthHelper.swift */,
 				9A85FFA02C1F75E00037E188 /* AlertPresenter.swift */,
+
 				9AA50C9D2C2B241A0019C6F0 /* Models */,
+=======
+				9ADC9DC42C2A1EC100EBE19D /* Models */,
+
 				9A4EF09A2B93EA2A00F1785F /* Splash */,
 				9A44CCAC2B8D278000111112 /* Auth */,
 				9ACCD62C2B936FA600D8F439 /* OAuth2 */,
@@ -340,6 +348,15 @@
 				9AD830612B8A6CA3001A74E7 /* SingleImageViewController.swift */,
 			);
 			path = SingleImage;
+			sourceTree = "<group>";
+		};
+		9ADC9DC42C2A1EC100EBE19D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9ADC9DC52C2A1ED500EBE19D /* AlertModels.swift */,
+				9ADC9DC72C2A22D400EBE19D /* ImagesList Models.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -580,8 +597,13 @@
 				9ACD67952BA3B52B0020B461 /* ProfileService.swift in Sources */,
 				9A5FE9F12B541B9A0027A31B /* ImagesListViewController.swift in Sources */,
 				9AACEC6B2BE15D6300C4D0C8 /* TabBarController.swift in Sources */,
+
 				9AA50CA72C2B2E120019C6F0 /* ImageListPresenter.swift in Sources */,
+
+				9ADC9DC62C2A1ED500EBE19D /* AlertModels.swift in Sources */,
+
 				9ACCD6292B9358A400D8F439 /* URLSession+data.swift in Sources */,
+				9ADC9DC82C2A22D400EBE19D /* ImagesList Models.swift in Sources */,
 				9A6045A52B88C1E20093F2D2 /* ImagesListCell.swift in Sources */,
 				9AD8305F2B8A096E001A74E7 /* ProfileViewController.swift in Sources */,
 				9A72C04C2BD583C000E65A24 /* ProfileImageService.swift in Sources */,

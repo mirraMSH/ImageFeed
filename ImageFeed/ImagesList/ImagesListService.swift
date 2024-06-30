@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 protocol ImagesListServiceProtocol {
     var photos: [Photo] { get }
     
@@ -15,6 +16,10 @@ protocol ImagesListServiceProtocol {
 }
 
 final class ImagesListService: ImagesListServiceProtocol {
+
+
+final class ImagesListService {
+
     
     static let shared = ImagesListService()
     init() { }
