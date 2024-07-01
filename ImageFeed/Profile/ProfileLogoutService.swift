@@ -20,6 +20,15 @@ final class ProfileLogoutService {
         cleanImageList()
         switchToSplashViewController()
     }
+    
+    func switchToSplashViewController() {
+        guard let window = UIApplication.shared.windows.first else {
+            fatalError("Invalid Configuration")
+        }
+        window.rootViewController = SplashViewController()
+        window.makeKeyAndVisible()
+    }
+    
     private func cleanProfileData() {
         ProfileService.shared.cleanProfile()
     }
@@ -33,13 +42,7 @@ final class ProfileLogoutService {
         ImagesListService.shared.cleanPhotos()
     }
     
-    private func switchToSplashViewController() {
-        guard let window = UIApplication.shared.windows.first else {
-            fatalError("Invalid Configuration")
-        }
-        window.rootViewController = SplashViewController()
-        window.makeKeyAndVisible()
-    }
+    
     private func cleanCookies() {
         HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
         WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in

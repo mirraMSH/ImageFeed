@@ -9,6 +9,11 @@ import Foundation
 
 // MARK: - Profile Image Models
 
+protocol ProfileImageServiceProtocol {
+    var avatarURL: String? { get }
+    func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void)
+}
+
 struct UserResult: Codable {
     var profileImage: ProfileImage
 }
@@ -19,7 +24,7 @@ struct ProfileImage: Codable {
     let large: String
 }
 
-final class ProfileImageService {
+final class ProfileImageService: ProfileImageServiceProtocol {
     
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     static let shared = ProfileImageService()

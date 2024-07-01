@@ -25,7 +25,7 @@ final class SplashViewController: UIViewController {
         return imageView
     }()
     
-   
+    
     //MARK: - Splash Viev Controller Main Methods
     
     override func viewDidLoad() {
@@ -34,7 +34,6 @@ final class SplashViewController: UIViewController {
         setupViews()
         setupLaunchLogoConstraints()
     }
-    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

@@ -12,12 +12,12 @@ protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
 }
 
-
 final class AuthViewController: UIViewController {
-    private let ShowWebViewSegueIdentifier = "ShowWebView"
+    
     let webViewViewController = WebViewViewController()
     let oAuth2Service = OAuth2Service.shared
     let tokenStorage = OAuth2TokenStorage()
+    private let ShowWebViewSegueIdentifier = "ShowWebView"
     private let alert = AlertPresenter()
     
     weak var delegate: AuthViewControllerDelegate?
@@ -32,6 +32,10 @@ final class AuthViewController: UIViewController {
             guard
                 let webViewViewController = segue.destination as? WebViewViewController
             else { fatalError("Failed to prepare for \(ShowWebViewSegueIdentifier)") }
+            let authHelper = AuthHelper()
+            let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+            webViewViewController.presenter = webViewPresenter
+            webViewPresenter.view = webViewViewController
             webViewViewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)

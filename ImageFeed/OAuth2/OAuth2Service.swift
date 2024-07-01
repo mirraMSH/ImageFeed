@@ -30,7 +30,7 @@ final class OAuth2Service {
     enum AuthServiceError: Error {
         case invalidRequest
     }
-  
+    
     
     func fetchOAuthToken(code: String, completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) {
         assert(Thread.isMainThread)
