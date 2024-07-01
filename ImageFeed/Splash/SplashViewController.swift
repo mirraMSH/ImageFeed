@@ -35,7 +35,6 @@ final class SplashViewController: UIViewController {
         setupLaunchLogoConstraints()
     }
     
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         

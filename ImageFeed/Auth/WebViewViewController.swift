@@ -48,7 +48,9 @@ final class WebViewViewController: UIViewController, WebViewViewControllerProtoc
         webView.load(request)
     }
     func setProgressValue(_ newValue: Float) {
-        progressView.progress = newValue
+        let animated = Float(webView.estimatedProgress) > progressView.progress
+        progressView.setProgress(Float(webView.estimatedProgress), animated: animated)
+        progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
     
     func setProgressHidden(_ isHidden: Bool) {

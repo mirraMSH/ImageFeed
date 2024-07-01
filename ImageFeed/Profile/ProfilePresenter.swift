@@ -11,7 +11,6 @@ protocol ProfilePresenterProtocol {
     var view: ProfileViewControllerProtocol? { get set }
     var profileService: ProfileServiceProtocol { get }
     var profileImageService: ProfileImageServiceProtocol { get }
-    
     func updateProfileData()
     func logoutFromProfile()
 }

@@ -32,8 +32,10 @@ final class ImageListTests: XCTestCase {
         viewController.presenter = presenter
         presenter.view = viewController
         let cell = ImagesListCell()
+        let indexPath = IndexPath()
         
-        presenter.imageListCellDidTapLike(cell)
+        
+        presenter.setupLike(cell: cell, row: indexPath.row)
         
         XCTAssertTrue(viewController.setupLikeCalled)
     }

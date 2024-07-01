@@ -48,11 +48,11 @@ final class ImageFeedTests: XCTestCase {
     
     func testProgressHiddenWhenOne() {
         
-        let authHelper = AuthHelper() //Dummy
+        let authHelper = AuthHelper()
         let presenter = WebViewPresenter(authHelper: authHelper)
         let progress: Float = 1.0
         
-        let shouldHideProgress = presenter.shouldHideProgress(for: progress) // return value verification
+        let shouldHideProgress = presenter.shouldHideProgress(for: progress)
         
         XCTAssertTrue(shouldHideProgress)
     }

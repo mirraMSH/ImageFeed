@@ -21,8 +21,6 @@ class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
     // MARK: - Private Properties
     private let profileService = ProfileService.shared
     var presenter: ProfilePresenterProtocol! = ProfilePresenter()
-    //    private var profileImageServiceObserver: NSObjectProtocol?
-    //    private let oAuthTokenStorage = OAuth2TokenStorage()
     
     // MARK: - Profile Lebel Views
     private let avatarImageView: UIImageView = {
@@ -82,8 +80,8 @@ class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
     
     // MARK: - Public Properties
     func setupAvatar(with url: URL) {
-        self.avatarImageView.kf.indicatorType = .activity
-        self.avatarImageView.kf.setImage(with: url, placeholder: UIImage(named: "tab_profile_active"))
+        avatarImageView.kf.indicatorType = .activity
+        avatarImageView.kf.setImage(with: url, placeholder: UIImage(named: "tab_profile_active"))
     }
     
     // MARK: - Private Properties
@@ -144,9 +142,9 @@ class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
         present(alert, animated: true)
     }
     func setupProfileDetails(profile: ProfileResult) {
-        self.nameLabel.text = "\(profile.firstName) \(profile.lastName ?? "")"
-        self.loginNameLabel.text = "@\(profile.username)"
-        self.descriptionLabel.text = profile.bio
+        nameLabel.text = "\(profile.firstName) \(profile.lastName ?? "")"
+        loginNameLabel.text = "@\(profile.username)"
+        descriptionLabel.text = profile.bio
     }
 }
 

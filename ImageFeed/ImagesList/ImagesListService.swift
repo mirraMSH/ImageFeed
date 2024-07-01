@@ -19,13 +19,12 @@ final class ImagesListService: ImagesListServiceProtocol {
     static let shared = ImagesListService()
     init() { }
     
+    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     // MARK: - ImagesListService Properties
-    
     private (set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
     private var pageNumber: Int = 1
     private var task: URLSessionTask?
-    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     private let oAuthTokenStorage = OAuth2TokenStorage()
     private let perPage: Int = 10
     private let urlSession = URLSession.shared
@@ -88,6 +87,12 @@ final class ImagesListService: ImagesListServiceProtocol {
         task.resume()
     }
     
+    func cleanPhotos() {
+        photos = []
+        lastLoadedPage = nil
+        task?.cancel()
+    }
+    
     private func isLikedPhotosRequest(photoId: String, isLiked: Bool) -> URLRequest? {
         let method = isLiked ? "POST" : "DELETE"
         var request = URLRequest.makeHTTPRequest(
@@ -102,12 +107,6 @@ final class ImagesListService: ImagesListServiceProtocol {
         
         request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
-    }
-    
-    func cleanPhotos() {
-        photos = []
-        lastLoadedPage = nil
-        task?.cancel()
     }
 }
 
